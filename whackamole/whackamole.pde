@@ -1,4 +1,4 @@
-//initializing variables
+//initializing all the moles
 Mole topRight;
 Mole topCenter;
 Mole topLeft;
@@ -29,6 +29,7 @@ void setup() {
   f = loadFont("Quicksand-Light-48.vlw");
   fill(255);
 
+  //set param in new Timer to amount of seconds you want the game to last
   timer = new Timer(30);
   timer.startTimer();
 
@@ -36,6 +37,7 @@ void setup() {
   hammer[0] = loadImage("hammer.png");
   hammer[1] = loadImage("hammerdown.png");
 
+  //init Mole objects for each spot and give it coordinates
   topRight = new Mole(90+25, 75);
   topCenter = new Mole(250+25, 75);
   topLeft = new Mole(410+25, 75);
@@ -54,75 +56,86 @@ void draw() {
     background(0);
     noCursor();
 
-    //timeLeft = (30 - (millis()/1000));
-
     timeLeft = (int) (30 - timer.passedTime);
-
-    topRight.display();
-    topCenter.display();
-    topLeft.display();
-
-    midRight.display();
-    midCenter.display();
-    midLeft.display();
-
-    bottomRight.display();
-    bottomCenter.display();
-    bottomLeft.display();
-
-    topRight.update();
-    topCenter.update();
-    topLeft.update();
-
-    midRight.update();
-    midCenter.update();
-    midLeft.update();
-
-    bottomRight.update();
-    bottomCenter.update();
-    bottomLeft.update();
-
+    displayMoles();
     displayTimeScore();
-
-    if (mousePressed) {
-      image(hammer[1], mouseX, mouseY);
-    }
-    else {
-      image(hammer[0], mouseX, mouseY);
-    }
-    if (timer.isFinished()) {
-      midRight.moleGameOver();
-    }
+    checkTimerOver();
+    displayHammer();
   } 
-  else {
-    //gameOver is true
-    background(0);
-    cursor();
-    textFont(f, 48);
-    text("Game Over\nScore = " + score, width/2, height/2 - 50);
+  else { //gameOver is true
+    drawReplayOption();
+    checkReplayHit();
+  }
+}
 
-    //draw replay button
-    rectMode(CENTER);
-    fill(255);
-    rect(width/2, height-150, 150, 50);
+void displayMoles() {
+  topRight.display();
+  topCenter.display();
+  topLeft.display();
+
+  midRight.display();
+  midCenter.display();
+  midLeft.display();
+
+  bottomRight.display();
+  bottomCenter.display();
+  bottomLeft.display();
+
+  topRight.update();
+  topCenter.update();
+  topLeft.update();
+
+  midRight.update();
+  midCenter.update();
+  midLeft.update();
+
+  bottomRight.update();
+  bottomCenter.update();
+  bottomLeft.update();
+}
+
+void checkTimerOver() {
+  if (timer.isFinished()) {
+    midRight.moleGameOver();
+  }
+}
+
+void displayHammer() {
+  if (mousePressed) {
+    image(hammer[1], mouseX, mouseY);
+  }
+  else {
+    image(hammer[0], mouseX, mouseY);
+  }
+}
+
+void drawReplayOption() {
+  background(0);
+  cursor();
+  textFont(f, 48);
+  text("Game Over\nScore = " + score, width/2, height/2 - 50);
+
+  //draw replay button
+  rectMode(CENTER);
+  fill(255);
+  rect(width/2, height-150, 150, 50);
+  fill(0);
+  textFont(f, 30);
+  text("replay", width/2, height-140);
+  fill(255);
+}
+
+void checkReplayHit() {
+  //if click on replay
+  if (mouseX > (width/2 - 75) &&  mouseX < (width/2 + 75) && mouseY < height-150 + 25 && mouseY > height-150 - 25) {
     fill(0);
+    rect(width/2, height-150, 150, 50);
+    fill(255);
     textFont(f, 30);
     text("replay", width/2, height-140);
-
-    fill(255);
-
-    //if click on replay
-    if (mouseX > (width/2 - 75) &&  mouseX < (width/2 + 75) && mouseY < height-150 + 25 && mouseY > height-150 - 25) {
-      fill(0);
-      rect(width/2, height-150, 150, 50);
-      fill(255);
-      textFont(f, 30);
-      text("replay", width/2, height-140);
-      if (mousePressed) {
-        reset();
-      }
+    if (mousePressed) {
+      reset();
     }
-    //reset
   }
 }
 

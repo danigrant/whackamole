@@ -5,11 +5,6 @@ class Mole {
   PImage[] moles;
   int currentMole;
 
-  //Timer gameTimer;
-  //Timer imageTimer;
-
-  //boolean timerStarted = false;
-
   // how long to stay in this currentMole
   int totalCurrentMoleTime;
 
@@ -30,10 +25,6 @@ class Mole {
     for (int i = 0; i < moles.length; i++) {
       moles[i] = loadImage("mole" + i + ".jpg");
     }
-
-    /*//initialize the timers
-     gameTimer = new Timer(30);
-     imageTimer = new Timer((int) random(1, 4));*/
 
     resetTimers();
   }
